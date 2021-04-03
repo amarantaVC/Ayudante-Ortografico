@@ -16,6 +16,9 @@ prof : Guillermo Palma
 
 import esPalabraValida
 from esPalabraValida import esPalabraValida
+import open_htable
+from open_htable import OpenHtable
+
 
 class PMLI(object):
 
@@ -25,10 +28,10 @@ class PMLI(object):
     #{Pre: True}
         assert(True)
         self.letra = l
-        self.palabras = []
+        self.palabras = OpenHtable(5)
 
         #postcondicion
-        assert(self.letra == l and self.palabras == [])
+        assert(self.letra == l)
 
     "agregarPalabra tiene como tarea agregar una palabra p que inicie con self.letra a la instancia self.palabras"
     #{pre: p[0] == self.letra}
@@ -42,15 +45,13 @@ class PMLI(object):
             if p[0] != letra:
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
             else:
-                palabras.append(p)
+                palabras.hash_insert(p)
         else:
            print(f"Palabra {p} no valida, por favor revise que todos los elementos esten en minusculas")
 
 
         
         return palabras
-
-    
 
     #{precondicion: p[0] == self.letra}
     #{palabras == palabras - p }
@@ -64,7 +65,7 @@ class PMLI(object):
             if p[0] != letra:
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
             else:
-                palabras.remove(p)
+                palabras.hash_delete(p)
         else:
             print(f"Palabra {p} no valida, por favor revise que todos los elementos esten en minusculas")
         return palabras
@@ -81,23 +82,22 @@ class PMLI(object):
             if p[0] != letra:
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
             else:
-                for word in palabras:
-                    if word == p:
-                        buscar = True
-                    else:
-                        pass
-            print(buscar)
+                if palabras.hash_search(p) != None:
+                    buscar = True
+                else:
+                    pass
+            return buscar
         else:
             print(f"Palabra {p} no valida, por favor revise que todos los elementos esten en minusculas")
             
     "Muestra la instancia self.palabras con sus elementos ordenados en forma lexicografica"
     #{pre: True}
     #{post: mostrarPalabras = (All p: 0<=p< len(palabras) : palabras[p] <= palabras[p+1])}
-    def mostrarPalabras(self):
-        assert(True)
-        palabras = self.palabras
-        palabras.sort()
-        print(palabras)
+
+    def __str__(self):
+        enunciado = f"\nletra\n "
+        enunciado += f" {self.letra} -> {self.palabras}"
+        return enunciado
 
 
 if __name__ == "__main__":
@@ -105,10 +105,13 @@ if __name__ == "__main__":
     arreglo.agregarPalabra("ale")
     arreglo.agregarPalabra("arrida")
     arreglo.agregarPalabra("r5@batar")
-    arreglo.mostrarPalabras()
-
     arreglo.eliminarPalabra("ale")
-    arreglo.mostrarPalabras()
     arreglo.buscarPalabra("ale")
+    arreglo.buscarPalabra("arrida")
+    arreglo.agregarPalabra("aola")
+    arreglo.agregarPalabra("azul")
+    arreglo.agregarPalabra("aliza")
+    print(arreglo)
 
+    
 
