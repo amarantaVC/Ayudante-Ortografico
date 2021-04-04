@@ -34,16 +34,22 @@ class Ayudante_Ortografico(object):
         self.dicc = [PMLI(letra) for letra in self.alfabeto]
     
     def cargarDiccionario(self, fname):
-        self.dicc
         archivo = open(fname,"r")
         with archivo as fp: 
-            for linea in (fp.readlines()):
-                print(linea)
-                if esPalabraValida(linea):
-                    pass
-                else:
-                    pass
+            #readlines lee las lineas del archivo
+            dicc = fp.readlines()
+        for linea in dicc:
+            #strip quita los espacios
+            linea = linea.strip()
+            #linea[0] significa primera letra de la palabra
+            #index entrega la posicion para obtener el PMLI del diccionario
+            index = self.alfabeto.index(linea[0])
+            self.dicc[index].agregarPalabra(linea)
 
+    def borrarPalabra(self,p):
+        assert(esPalabraValida(p) == True)
+        index = self.alfabeto.index(p[0])
+        self.dicc[index].eliminarPalabra(p)
 
 
     def __str__(self):
@@ -52,4 +58,7 @@ class Ayudante_Ortografico(object):
 
 a = Ayudante_Ortografico()
 a.cargarDiccionario('prueba.txt')
-print(a)
+a.borrarPalabra("preso")
+for diccionario in a.dicc:
+    if diccionario.palabras:
+        diccionario.mostrarPalabras()
