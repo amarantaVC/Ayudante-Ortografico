@@ -52,22 +52,24 @@ class OpenHtable(object):
         i = 0
         tabla = self.tabla
         n = self.tamano
+        buscar = False
         while i < n and tabla != None:
             j = self.h(palabra,i)
             if tabla[j] == palabra:
-                return j
+                return j 
             i += 1
-        if i == n or tabla[j] == None:
+        if tabla[j] == None or i == n:
             return None
+        
     
     def hash_delete(self,palabra):
         i = 0
-        tabla = self.tabla
+        self.tabla
         n = self.tamano
-        while i < n and tabla != None:
+        while i < n and self.tabla != None:
             j = self.h(palabra,i)
-            if tabla[j] == palabra:
-                tabla[j] = None
+            if self.tabla[j] == palabra:
+                self.tabla[j] = None
                 self.cantidad -= 1
                 return j
             else:
