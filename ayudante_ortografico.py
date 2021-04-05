@@ -37,19 +37,42 @@ class Ayudante_Ortografico(object):
         archivo = open(fname,"r")
         with archivo as fp: 
             #readlines lee las lineas del archivo
-            dicc = fp.readlines()
-        for linea in dicc:
+            dicci = fp.readlines()
+        for linea in dicci:
             #strip quita los espacios
             linea = linea.strip()
             #linea[0] significa primera letra de la palabra
             #index entrega la posicion para obtener el PMLI del diccionario
             index = self.alfabeto.index(linea[0])
-            self.dicc[index].agregarPalabra(linea)
+            buscar = self.dicc[index].buscarPalabra(linea)
+            if buscar == False:
+
+                self.dicc[index].agregarPalabra(linea)
+            else:
+                pass
 
     def borrarPalabra(self,p):
         assert(esPalabraValida(p) == True)
         index = self.alfabeto.index(p[0])
         self.dicc[index].eliminarPalabra(p)
+
+    def corregirTexto(self,finput):
+        archivo = open(finput,"r")
+        with archivo as fp:
+            documento = fp.readlines()
+        for linea in documento:
+            #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
+            linea = linea.split()
+            for palabra in linea:
+                valida = esPalabraValida(palabra)
+                index = self.alfabeto.index(palabra[0])
+                buscar = self.dicc[index].buscarPalabra(palabra)
+                if valida == True and buscar == True:
+                    pass
+                else:
+                    pass
+        
+
 
 
     def __str__(self):
@@ -58,7 +81,10 @@ class Ayudante_Ortografico(object):
 
 a = Ayudante_Ortografico()
 a.cargarDiccionario('prueba.txt')
-a.borrarPalabra("preso")
+
+#a.borrarPalabra("preso")
+#a.corregirTexto("corregir.txt")
+
 for diccionario in a.dicc:
     if diccionario.palabras:
         diccionario.mostrarPalabras()
