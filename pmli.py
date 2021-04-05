@@ -66,10 +66,8 @@ class PMLI(object):
                 
             if p[0] != letra:
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
-
             else:
-                palabras.hash_search(p)
-                if palabras.hash_search == True:
+                if palabras.hash_search(p) != None:
 
                     palabras.hash_delete(p)
                 else:

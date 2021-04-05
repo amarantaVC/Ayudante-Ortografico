@@ -53,6 +53,7 @@ class Ayudante_Ortografico(object):
 
     def borrarPalabra(self,p):
         assert(esPalabraValida(p) == True)
+
         index = self.alfabeto.index(p[0])
         self.dicc[index].eliminarPalabra(p)
 
@@ -82,7 +83,8 @@ class Ayudante_Ortografico(object):
 a = Ayudante_Ortografico()
 a.cargarDiccionario('prueba.txt')
 
-#a.borrarPalabra("preso")
+#a.borrarPalabra("manzana")
+
 #a.corregirTexto("corregir.txt")
 
 for diccionario in a.dicc:
