@@ -13,9 +13,12 @@ prof : Guillermo Palma
 """
 import hashlib
 from hashlib import sha256 
+import math
+from math import factorial
 class OpenHtable(object):
     
     def __init__(self,n):
+
         self.tamano = n
         self.tabla = [None for i in range(n)]
         self.cantidad = 0
@@ -28,20 +31,22 @@ class OpenHtable(object):
         return (resultado)
 
     def hash_insert(self,palabra):
-        
+        self.rehashing()
         tabla = self.tabla 
-        n =  self.tamano
+ 
         i =0
-        while i < n :
-            j = self.h(palabra,i)
-            if tabla[j] == None:
+        while i < len(tabla) :
+            j = self.h(palabra,i)  
+            if tabla[j] is None:
                 tabla[j] = palabra
                 self.cantidad += 1
                 return j
             else:
                 i = i + 1
+        
         else:
             print("desbordamiento de la tabla de hash")
+
 
     def hash_search(self,palabra):
         i = 0
@@ -79,20 +84,18 @@ class OpenHtable(object):
         return factor
     
     def rehashing(self):
-        if self.factor_de_carga() >= 0.7:
-            OldTabla = self.tabla
-            Oldn = self.tamano
-        
-        Newtabla = OpenHtable(Oldn*2)
+        if self.factor_de_carga() < 0.7:
+            return
+               
+        Newtabla = OpenHtable(self.tamano*2)
 
-        for casilla in OldTabla:
-            if casilla:
-                tabla.hash_insert(casilla)
-        
+        for casilla in self.tabla:
+            if casilla is not None:
+                Newtabla.hash_insert(casilla)
         self.tabla = Newtabla.tabla
         self.tamano = Newtabla.tamano
+        self.cantidad = Newtabla.cantidad
 
-    def mostrar(self):
-        print(self.tabla)
+    def __str__(self):
+        return f'{self.tabla}'
 
-}
