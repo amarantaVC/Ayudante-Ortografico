@@ -1,0 +1,3 @@
+Este procedimiento recibe como entrada un archivo de texto con palabras a revisar. Este archivo ademas de
+palabras validas, puede contener palabras inADalidas, espacios en blanco, saltos de lınea, espacio de tabulaciones
+y signos de puntuacion
