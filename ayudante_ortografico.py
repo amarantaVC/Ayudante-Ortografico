@@ -24,6 +24,7 @@ from pmli import PMLI
 import string
 import numpy as np
 from numpy import*
+import collections
 
 "Ayudante_Ortografico es un TAD que posee un arreglo con 27 PMLI que corresponde a cada letra del alfabeto latin y tiene como funcion almacenar las palabras del diccionario que se van a usar "
 class Ayudante_Ortografico(object):
@@ -105,15 +106,26 @@ class Ayudante_Ortografico(object):
         for linea in documento:
             #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
             linea = linea.split()
-            for palabra in linea:
+            NoDicc = []
+            for palabra in linea:  
                 valida = esPalabraValida(palabra)
-                index = self.alfabeto.index(palabra[0])
-                buscar = self.dicc[index].buscarPalabra(palabra)
-                if valida == True and buscar == True:
-                    pass
-                else:
-                    pass
+                if valida == True :
+                    m = self.sugerencia()
+                    for word in m:
+                        y = self.levenshtein_distance(palabra,word)
+                        print(f"{palabra} , {word}, {y}")
+
+                                       
         
+    
+    def sugerencia(self):
+        Arreglo = []           
+        for diccionario in self.dicc:
+            for palabra in diccionario.palabras.tabla:
+                if palabra != None:
+                    Arreglo.append(palabra)
+        return (Arreglo)
+    
 
     def __str__(self):
         return f"{self.dicc}"
@@ -122,11 +134,11 @@ class Ayudante_Ortografico(object):
 a = Ayudante_Ortografico()
 
 a.cargarDiccionario('prueba.txt')
-a.levenshtein_distance("cat","dog")
+a.levenshtein_distance("Amaranta","barbara")
 #a.borrarPalabra("maria")
 
-#a.corregirTexto("corregir.txt")
-
+print(a.corregirTexto("corregir.txt"))
+#a.sugerencia()
 #for diccionario in a.dicc:
     #if diccionario.palabras:
         #diccionario.mostrarPalabras()
