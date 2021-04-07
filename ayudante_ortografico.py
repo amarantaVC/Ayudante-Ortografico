@@ -131,6 +131,8 @@ class Ayudante_Ortografico(object):
             print("palabra", palabra)
             print()
             m = self.sugerencia(palabra)
+            print()
+            print(m)
             salida = ",".join(m)
             #escribiendo archivo de salida
             ArchivoSalida.write(f"{palabra},{salida}"+"\n")
@@ -145,7 +147,8 @@ class Ayudante_Ortografico(object):
             for palabra in diccionario.palabras.tabla:
                 if palabra != None:
                     Arreglo.append(palabra)
-        
+        print(Arreglo)
+        print()
         sugerencia = []
 
         for i in range(len(Arreglo)):
@@ -155,6 +158,7 @@ class Ayudante_Ortografico(object):
         sugerencia.sort(key = lambda x: x[1])
 
         Orden = [a for (a,b) in sugerencia]
+
         a = []
         for i in range(4):
             a.append(Orden[i])
@@ -169,11 +173,15 @@ class Ayudante_Ortografico(object):
 a = Ayudante_Ortografico()
 
 a.cargarDiccionario('prueba.txt')
-
-a.levenshtein_distance("Amaranta","barbara")
-#a.borrarPalabra("maria")
+for diccionario in a.dicc:
+    if diccionario.palabras:
+        diccionario.mostrarPalabras()
+#a.levenshtein_distance("Amaranta","barbara")
+a.borrarPalabra("queso")
+a.borrarPalabra("yate")
 #a.sugerencia("auto")
-a.corregirTexto("corregir.txt")
-#for diccionario in a.dicc:
-    #if diccionario.palabras:
-        #diccionario.mostrarPalabras()
+#a.corregirTexto("corregir.txt")
+for diccionario in a.dicc:
+    if diccionario.palabras:
+        diccionario.mostrarPalabras()
+
