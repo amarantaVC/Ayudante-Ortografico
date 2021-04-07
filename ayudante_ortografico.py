@@ -118,20 +118,23 @@ class Ayudante_Ortografico(object):
                         NoDicc.append(palabra)
                     else:
                         pass
-                        """
-                        m = self.sugerencia()
-                        for i in range(len(m)):
-                            y = self.levenshtein_distance(palabra,m[i-1])
-                            w = self.levenshtein_distance(palabra,m[i])
-                        """
+
         NoDicc = sorted(NoDicc)
-        
+        foutput = None
+        if foutput: 
+            ArchivoSalida = open(foutput, "w")
+        else:
+            ArchivoSalida = open("foutput.txt" ,"w")
+
         for palabra in NoDicc:
             print()
             print("palabra", palabra)
             print()
-            self.sugerencia(palabra)
-
+            m = self.sugerencia(palabra)
+            salida = ",".join(m)
+            #escribiendo archivo de salida
+            ArchivoSalida.write(f"{palabra},{salida}"+"\n")
+        ArchivoSalida.close()
                                        
         
     
@@ -150,10 +153,13 @@ class Ayudante_Ortografico(object):
             w = self.levenshtein_distance(elemento,Arreglo[i])
             sugerencia.append((Arreglo[i],w))
         sugerencia.sort(key = lambda x: x[1])
-        print(sugerencia)
-        print()
+
         Orden = [a for (a,b) in sugerencia]
-        print(Orden)
+        a = []
+        for i in range(4):
+            a.append(Orden[i])
+        return a
+
 
 
     def __str__(self):
@@ -166,7 +172,7 @@ a.cargarDiccionario('prueba.txt')
 
 a.levenshtein_distance("Amaranta","barbara")
 #a.borrarPalabra("maria")
-a.sugerencia("auto")
+#a.sugerencia("auto")
 a.corregirTexto("corregir.txt")
 #for diccionario in a.dicc:
     #if diccionario.palabras:
