@@ -103,29 +103,58 @@ class Ayudante_Ortografico(object):
         archivo = open(finput,"r")
         with archivo as fp:
             documento = fp.readlines()
+        NoDicc = []
         for linea in documento:
             #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
-            linea = linea.split()
-            NoDicc = []
+            linea = linea.strip('\n').split(" ")
+            
             for palabra in linea:  
                 valida = esPalabraValida(palabra)
                 if valida == True :
-                    m = self.sugerencia()
-                    for word in m:
-                        y = self.levenshtein_distance(palabra,word)
-                        print(f"{palabra} , {word}, {y}")
+                    index = self.alfabeto.index(palabra[0])
+                    buscar = self.dicc[index].buscarPalabra(palabra)
+                    if buscar == False and (palabra not in NoDicc):
+
+                        NoDicc.append(palabra)
+                    else:
+                        pass
+                        """
+                        m = self.sugerencia()
+                        for i in range(len(m)):
+                            y = self.levenshtein_distance(palabra,m[i-1])
+                            w = self.levenshtein_distance(palabra,m[i])
+                        """
+        NoDicc = sorted(NoDicc)
+        
+        for palabra in NoDicc:
+            print()
+            print("palabra", palabra)
+            print()
+            self.sugerencia(palabra)
 
                                        
         
     
-    def sugerencia(self):
+    def sugerencia(self,elemento:str):
+
         Arreglo = []           
         for diccionario in self.dicc:
             for palabra in diccionario.palabras.tabla:
                 if palabra != None:
                     Arreglo.append(palabra)
-        return (Arreglo)
-    
+        
+        sugerencia = []
+
+        for i in range(len(Arreglo)):
+            # = self.levenshtein_distance(elemento,Arreglo[i-1])
+            w = self.levenshtein_distance(elemento,Arreglo[i])
+            sugerencia.append((Arreglo[i],w))
+        sugerencia.sort(key = lambda x: x[1])
+        print(sugerencia)
+        print()
+        Orden = [a for (a,b) in sugerencia]
+        print(Orden)
+
 
     def __str__(self):
         return f"{self.dicc}"
@@ -134,11 +163,11 @@ class Ayudante_Ortografico(object):
 a = Ayudante_Ortografico()
 
 a.cargarDiccionario('prueba.txt')
+
 a.levenshtein_distance("Amaranta","barbara")
 #a.borrarPalabra("maria")
-
-print(a.corregirTexto("corregir.txt"))
-#a.sugerencia()
+a.sugerencia("auto")
+a.corregirTexto("corregir.txt")
 #for diccionario in a.dicc:
     #if diccionario.palabras:
         #diccionario.mostrarPalabras()
