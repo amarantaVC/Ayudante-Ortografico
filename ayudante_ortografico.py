@@ -46,7 +46,7 @@ class Ayudante_Ortografico(object):
 
     "cargarDiccionario tiene la tarea de leer un archivo de entrada con las palabras de un diccionario y almacenarlas en la estructura dicc"
     
-    def cargarDiccionario(self, fname: str):
+    def cargarDiccionario(self, fname):
         archivo = open(fname,"r")
         with archivo as fp: 
             #readlines lee las lineas del archivo
@@ -76,9 +76,13 @@ class Ayudante_Ortografico(object):
         assert(esPalabraValida(p) == True)
 
         index = self.alfabeto.index(p[0])
+
+
         self.dicc[index].eliminarPalabra(p)
 
-    def levenshtein_distance(self,s1,s2):
+    "levenshtein_distance es el metodo que permite determinar la distancia entre dos elementos tipo String mediante la metrica de conocida como distancia levenshtein"
+    def levenshtein_distance(self,s1:str,s2:str):
+        
         size_s1 = len(s1) + 1
         size_s2 = len(s2) +1
 
@@ -102,11 +106,13 @@ class Ayudante_Ortografico(object):
                 m[i,j] = min(imenos1,imenos1_jmenos1,jmenos1)
         return (int(m[size_s1 - 1, size_s2 - 1]))
 
-    "corregirTexto recibe como entrada un archivo co"
+    "corregirTexto recibe como entrada un archivo con palabras a revisar y extrae unicamente las palabras validas que se encuentren en el texto y si no se encuentran en el diccionario retornar un archivo con la palabra que no se encuentra en el diccionario y 4 palabras con la menor distancia levenstein las cuales seran las que el programa considere como sugerencias."
     def corregirTexto(self,finput):
+        
         archivo = open(finput,"r")
         with archivo as fp:
             documento = fp.readlines()
+        #creamos un arreglo NoDicc que almacena las palabras validas que no se encuentre en el diccionario    
         NoDicc = []
         for linea in documento:
             #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
@@ -147,6 +153,7 @@ class Ayudante_Ortografico(object):
             for palabra in diccionario.palabras.tabla:
                 if palabra != None:
                     Arreglo.append(palabra)
+        
         sugerencia = []
 
         for i in range(len(Arreglo)):
@@ -156,13 +163,12 @@ class Ayudante_Ortografico(object):
         sugerencia.sort(key = lambda x: x[1])
 
         Orden = [a for (a,b) in sugerencia]
-
         a = []
         for i in range(4):
             a.append(Orden[i])
         return a
+    
     "imprimirDiccionario tiene como funcion mostrar las palabras del diccionario en orden lexicografico"
-
     def imprimirDiccionario(self):
         assert(True)
         print("#----------------Diccionario---------------#")
@@ -172,18 +178,3 @@ class Ayudante_Ortografico(object):
         print(r)
     
 
-
-
-a = Ayudante_Ortografico()
-a.crearAyudante
-a.cargarDiccionario('prueba.txt')
-#a.levenshtein_distance("Amaranta","barbara")
-#a.borrarPalabra("queso")
-#a.borrarPalabra("yate")
-#a.sugerencia("auto")
-inicio = perf_counter()
-a.corregirTexto("corregir.txt")
-#a.imprimirDiccionario()
-final = perf_counter()
-time = final - inicio
-print(f" tiempo de corregir texto {time}")
