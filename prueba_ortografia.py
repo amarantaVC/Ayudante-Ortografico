@@ -16,7 +16,7 @@ import ayudante_ortografico
 from ayudante_ortografico import*
 import getopt
 import sys 
-print("¡¡¡ BIENVENIDO AL AYUDANTE ORTOGRAFICO !!!")
+print("¡¡¡ Bienvenido al Ayudante Ortografico !!!")
 print()
 print()
 
@@ -25,7 +25,8 @@ def ElegirOpcion():
     opciones = 0
     while(not correcto):
         try:
-            opciones = int(input("Introduza su opcion:"))
+            opciones = int(input("Introduzca su opcion:"))
+            #print(f"Usted seleccionó la opcion {opciones } ")
             correcto = True
         except ValueError:
             print("Error, por favor introduzca un numero entre el 1 y 6 para elegir una opcion")
@@ -52,33 +53,51 @@ while not salir:
     print()
 
     opcion = ElegirOpcion()
-    a = Ayudante_Ortografico()
+    print()
+    
 
     if opcion == 1:
-        a.crearAyudante()
-        
+        a = Ayudante_Ortografico()
+    existe = bool(Ayudante_Ortografico())
+    
     if opcion == 2:
-        args = sys.argv[1]
-        a.cargarDiccionario(args)
+        print(existe)
+        diccionario = input("Ingrese el diccionario a cargar:")
+        b = a.cargarDiccionario(diccionario) 
+        
 
+    if opcion == 3:
+        if b == True:
+            b = a.cargarDiccionario(diccionario)
+            palabra = input("ingrese la palabra a borrar:")
+            a.borrarPalabra(palabra)
+        else:
+            print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
+            print()
+    if opcion == 4:
+        if b:
+            b = a.cargarDiccionario(diccionario)
+            texto = input("ingrese el archivo a corregir:")
+            a.corregirTexto(texto)
+        else:
+            print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
+            print()
+    
+    #### no me borra ###
+    if opcion == 5:
+        if b:
 
-    elif opcion == 3:
-        palabra = str(input("ingrese la palabra a borrar:"))
-        a.borrarPalabra(palabra)
-    
-    elif opcion == 4:
-        #preguntaar lo de la opcion 4 de como hacer si no se ha cargado diccionario 
-        a.cargarDiccionario("prueba.txt")
-        a.corregirTexto("corregir.txt")
-        sys.exit()
-    
-    elif opcion == 5:
-        a.imprimirDiccionario()
-    
-    elif opcion == 6:
+            b = a.cargarDiccionario(diccionario)
+            a.imprimirDiccionario()
+        else:
+            print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
+            print()
+
+    if opcion == 6:
         salir = True
 
     else:
-        print("introduzca un numero entero")
-
-print(" Adios ")
+        print("######################")
+        print("introduzca una opcion")
+        print()
+print("Usted ha salido del Ayudante Ortografico")
