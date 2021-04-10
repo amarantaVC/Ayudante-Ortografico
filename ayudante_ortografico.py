@@ -119,18 +119,25 @@ class Ayudante_Ortografico(object):
         for linea in documento:
             #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
             linea = linea.strip('\n').split(" ")
-
+            print(linea)
+    
             for palabra in linea:
-                valida = esPalabraValida(palabra)
-                if valida == True :
-                    index = self.alfabeto.index(palabra[0])
-                    buscar = self.dicc[index].buscarPalabra(palabra)
-                    if buscar == False and (palabra not in NoDicc):
+                if palabra == '':
+                    pass
+                else:
+                        
+                    valida = esPalabraValida(palabra)
+                    if valida == True :
+                        index = self.alfabeto.index(palabra[0])
+                        buscar = self.dicc[index].buscarPalabra(palabra)
 
-                        NoDicc.append(palabra)
+                        if buscar == False and (palabra not in NoDicc):
+
+                            NoDicc.append(palabra)
+                        else:
+                            pass
                     else:
                         pass
-
         NoDicc = sorted(NoDicc)
         foutput = None
         if foutput:
@@ -184,6 +191,6 @@ if __name__ == "__main__":
 
     a = Ayudante_Ortografico()
     a.cargarDiccionario("prueba.txt")
-    a.imprimirDiccionario()
-    a.borrarPalabra("zi")
+    a.corregirTexto("corregir.txt")
+    
     
