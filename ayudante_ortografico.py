@@ -30,46 +30,48 @@ from time import perf_counter
 "Ayudante_Ortografico es un TAD que posee un arreglo con 27 PMLI que corresponde a cada letra del alfabeto latin y tiene como funcion almacenar las palabras del diccionario que se van a usar "
 class Ayudante_Ortografico(object):
     
-    assert(True)
+    
+    "crearAyudante tiene la tarea de crear un nuevo TAD Ayudante Ortogradico en donde la estructura de datos dicc se inicializa "
     #inciailizamos la estructura dicc con las 27 instancias de PMLI
     def __init__(self):
         self.alfabeto = list(string.ascii_lowercase)
         self.alfabeto.append('ñ')
         self.MAX = 27
         self.dicc = [PMLI(letra) for letra in self.alfabeto]
-    "crearAyudante tiene la tarea de crear un nuevo TAD Ayudante Ortogradico en donde la estructura de datos dicc se inicializa "
-    def crearAyudante(self) -> "Ayudante_Ortografico":
-        #precondicion
-        assert(True)
-
-        return self
-
+   
     "cargarDiccionario tiene la tarea de leer un archivo de entrada con las palabras de un diccionario y almacenarlas en la estructura dicc"
     
     def cargarDiccionario(self, fname):
-        archivo = open(fname,"r")
-        with archivo as fp: 
-            #readlines lee las lineas del archivo
-            dicci = fp.readlines()
+        try:
+            archivo = open(fname,"r")
+            cargo = True
+            with archivo as fp: 
+                #readlines lee las lineas del archivo
+                dicci = fp.readlines()
+            
+            for linea in dicci:
+                #preguntarRR 
+                linea = linea.strip()
+                #precondicion
+                if esPalabraValida(linea) :
+                        #strip quita los espacios
+                        #linea[0] significa primera letra de la palabra
+                        #index entrega la posicion para obtener el PMLI del diccionario
+                        index = self.alfabeto.index(linea[0])
+                        buscar = self.dicc[index].buscarPalabra(linea)
+                        if buscar == False:
+                            #postcondicion
+                            self.dicc[index].agregarPalabra(linea)
+                        else:
+                            pass
+                else:
+                    print(f"archivo invalido por palabra no valida: {linea}")    
+            
+            return cargo
 
-        for linea in dicci:
-            #preguntarRR 
-            linea = linea.strip()
-            #precondicion
-            if esPalabraValida(linea) :
-                    #strip quita los espacios
-                    #linea[0] significa primera letra de la palabra
-                    #index entrega la posicion para obtener el PMLI del diccionario
-                    index = self.alfabeto.index(linea[0])
-                    buscar = self.dicc[index].buscarPalabra(linea)
-                    if buscar == False:
-                        #postcondicion
-                        self.dicc[index].agregarPalabra(linea)
-                    else:
-                        pass
-            else:
-                print(f"archivo invalido por palabra no valida: {linea}")    
-    
+        except FileNotFoundError:
+            cargo = False
+            return cargo
     "borrarPalabra tiene como tarea recibir una palabra y verificar si esta se encuentra en la estructura dicc, si esto es verdad procede a eliminar la palabra "
     def borrarPalabra(self,p):
         #precondicion
@@ -175,6 +177,13 @@ class Ayudante_Ortografico(object):
         for diccionario in self.dicc:
             if diccionario.palabras:
                 r = (diccionario.mostrarPalabras())
-        print(r)
+
     
 
+if __name__ == "__main__":
+
+    a = Ayudante_Ortografico()
+    a.cargarDiccionario("prueba.txt")
+    a.imprimirDiccionario()
+    a.borrarPalabra("zi")
+    
