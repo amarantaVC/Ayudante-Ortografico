@@ -68,7 +68,6 @@ while not salir:
 
     if opcion == 3:
         if b == True:
-            b = a.cargarDiccionario(diccionario)
             palabra = input("ingrese la palabra a borrar:")
             a.borrarPalabra(palabra)
         else:
@@ -86,8 +85,6 @@ while not salir:
     #### no me borra ###
     if opcion == 5:
         if b:
-
-            b = a.cargarDiccionario(diccionario)
             a.imprimirDiccionario()
         else:
             print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
