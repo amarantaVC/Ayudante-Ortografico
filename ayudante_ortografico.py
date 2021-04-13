@@ -27,6 +27,8 @@ from numpy import*
 import collections
 import time 
 from time import perf_counter
+import re 
+from re import split
 "Ayudante_Ortografico es un TAD que posee un arreglo con 27 PMLI que corresponde a cada letra del alfabeto latin y tiene como funcion almacenar las palabras del diccionario que se van a usar "
 class Ayudante_Ortografico(object):
     
@@ -117,28 +119,34 @@ class Ayudante_Ortografico(object):
         #creamos un arreglo NoDicc que almacena las palabras validas que no se encuentre en el diccionario    
         NoDicc = []
         for linea in documento:
+            
             #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
-            linea = linea.strip('\n').split(" ")
-            print(linea)
-    
-            for palabra in linea:
+            aux = linea.strip()
+            #captura todo lo que no es una palabra o un espacio en blanco 
+            aux = re.sub(r'[^\w\s]', ' ', aux)
+            asi = aux.split()
+
+            for palabra in asi:
                 if palabra == '':
                     pass
                 else:
                         
                     valida = esPalabraValida(palabra)
+                
                     if valida == True :
                         index = self.alfabeto.index(palabra[0])
                         buscar = self.dicc[index].buscarPalabra(palabra)
 
                         if buscar == False and (palabra not in NoDicc):
-
-                            NoDicc.append(palabra)
+                            
+                                NoDicc.append(palabra)
                         else:
                             pass
                     else:
                         pass
+
         NoDicc = sorted(NoDicc)
+
         foutput = None
         if foutput:
             ArchivoSalida = open(foutput, "w")
@@ -191,6 +199,8 @@ if __name__ == "__main__":
 
     a = Ayudante_Ortografico()
     a.cargarDiccionario("prueba.txt")
+
     a.corregirTexto("corregir.txt")
+    
     
     
