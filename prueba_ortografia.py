@@ -58,43 +58,52 @@ while not salir:
 
     if opcion == 1:
         a = Ayudante_Ortografico()
-    existe = bool(Ayudante_Ortografico())
-    
+ 
     if opcion == 2:
-        print(existe)
         diccionario = input("Ingrese el diccionario a cargar:")
         b = a.cargarDiccionario(diccionario) 
-        
+        print()
+        if b == False:
+            print("-------------------------------------------------------------------")
+            print(f"Error: {diccionario} No es un diccionario válido. Inténte de nuevo")
+            print("-------------------------------------------------------------------")
+        else:
+            pass
 
     if opcion == 3:
         if b == True:
             palabra = input("ingrese la palabra a borrar:")
             a.borrarPalabra(palabra)
         else:
+            print("-------------------------------------------------------------------")
             print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
-            print()
+            print("-------------------------------------------------------------------")
     if opcion == 4:
         if b:
             b = a.cargarDiccionario(diccionario)
             texto = input("ingrese el archivo a corregir:")
             a.corregirTexto(texto)
         else:
+            print("-------------------------------------------------------------------")
             print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
-            print()
+            print("-------------------------------------------------------------------")
     
     #### no me borra ###
     if opcion == 5:
         if b:
             a.imprimirDiccionario()
         else:
+            print("-------------------------------------------------------------------")
             print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
-            print()
+            print("-------------------------------------------------------------------")
 
     if opcion == 6:
         salir = True
 
     else:
-        print("######################")
+        print()
         print("introduzca una opcion")
         print()
+print("-------------------------------------------------------------------")
 print("Usted ha salido del Ayudante Ortografico")
+print("-------------------------------------------------------------------")
