@@ -29,6 +29,7 @@ import time
 from time import perf_counter
 import re 
 from re import split
+import os
 "Ayudante_Ortografico es un TAD que posee un arreglo con 27 PMLI que corresponde a cada letra del alfabeto latin y tiene como funcion almacenar las palabras del diccionario que se van a usar "
 class Ayudante_Ortografico(object):
     
@@ -36,11 +37,11 @@ class Ayudante_Ortografico(object):
     "crearAyudante tiene la tarea de crear un nuevo TAD Ayudante Ortogradico en donde la estructura de datos dicc se inicializa "
     #inciailizamos la estructura dicc con las 27 instancias de PMLI
     def __init__(self):
+
         self.alfabeto = list(string.ascii_lowercase)
         self.alfabeto.append('ñ')
-        self.MAX = 27
         self.dicc = [PMLI(letra) for letra in self.alfabeto]
-   
+            
     "cargarDiccionario tiene la tarea de leer un archivo de entrada con las palabras de un diccionario y almacenarlas en la estructura dicc"
     
     def cargarDiccionario(self, fname):
@@ -67,23 +68,27 @@ class Ayudante_Ortografico(object):
                         else:
                             pass
                 else:
-                    print(f"archivo invalido por palabra no valida: {linea}")    
-            
+                    print("-------------------------------------------------------------------")
+                    print(f"archivo invalido por palabra no valida: {linea}. Intente cargar un archivo valido")
+                    print("-------------------------------------------------------------------")
+                    break
+        
             return cargo
 
         except FileNotFoundError:
             cargo = False
+
             return cargo
+
     "borrarPalabra tiene como tarea recibir una palabra y verificar si esta se encuentra en la estructura dicc, si esto es verdad procede a eliminar la palabra "
     def borrarPalabra(self,p):
         #precondicion
         assert(esPalabraValida(p) == True)
 
         index = self.alfabeto.index(p[0])
-
-
         self.dicc[index].eliminarPalabra(p)
 
+        
     "levenshtein_distance es el metodo que permite determinar la distancia entre dos elementos tipo String mediante la metrica de conocida como distancia levenshtein"
     def levenshtein_distance(self,s1:str,s2:str):
         
@@ -113,54 +118,62 @@ class Ayudante_Ortografico(object):
     "corregirTexto recibe como entrada un archivo con palabras a revisar y extrae unicamente las palabras validas que se encuentren en el texto y si no se encuentran en el diccionario retornar un archivo con la palabra que no se encuentra en el diccionario y 4 palabras con la menor distancia levenstein las cuales seran las que el programa considere como sugerencias."
     def corregirTexto(self,finput):
         
-        archivo = open(finput,"r")
-        with archivo as fp:
-            documento = fp.readlines()
-        #creamos un arreglo NoDicc que almacena las palabras validas que no se encuentre en el diccionario    
-        NoDicc = []
-        for linea in documento:
-            
-            #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
-            aux = linea.strip()
-            #captura todo lo que no es una palabra o un espacio en blanco 
-            aux = re.sub(r'[^\w\s]', ' ', aux)
-            asi = aux.split()
-
-            for palabra in asi:
-                if palabra == '':
-                    pass
-                else:
-                        
-                    valida = esPalabraValida(palabra)
+        ruta, extension = os.path.splitext(finput)
+        if extension == ".txt":
+            archivo = open(finput,"r")
+        
+            with archivo as fp:
+                documento = fp.readlines()
+            #creamos un arreglo NoDicc que almacena las palabras validas que no se encuentre en el diccionario    
+            NoDicc = []
+            for linea in documento:
                 
-                    if valida == True :
-                        index = self.alfabeto.index(palabra[0])
-                        buscar = self.dicc[index].buscarPalabra(palabra)
+                #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
+                aux = linea.strip()
+                #captura todo lo que no es una palabra o un espacio en blanco 
+                aux = re.sub(r'[^\w\s]', ' ', aux)
+                asi = aux.split()
 
-                        if buscar == False and (palabra not in NoDicc):
+                for palabra in asi:
+                    if palabra == '':
+                        pass
+                    else:
                             
-                                NoDicc.append(palabra)
+                        valida = esPalabraValida(palabra)
+                    
+                        if valida == True :
+                            index = self.alfabeto.index(palabra[0])
+                            buscar = self.dicc[index].buscarPalabra(palabra)
+
+                            if buscar == False and (palabra not in NoDicc):
+                                
+                                    NoDicc.append(palabra)
+                            else:
+                                pass
                         else:
                             pass
-                    else:
-                        pass
 
-        NoDicc = sorted(NoDicc)
+            NoDicc = sorted(NoDicc)
 
-        foutput = None
-        if foutput:
-            ArchivoSalida = open(foutput, "w")
+            foutput = None
+            if foutput:
+                ArchivoSalida = open(foutput, "w")
+            else:
+                ArchivoSalida = open("foutput.txt" ,"w")
+
+            for palabra in NoDicc:
+
+                m = self.sugerencia(palabra)
+
+                salida = ",".join(m)
+                #escribiendo archivo de salida
+                ArchivoSalida.write(f"{palabra},{salida}"+"\n")
+            ArchivoSalida.close()
         else:
-            ArchivoSalida = open("foutput.txt" ,"w")
-
-        for palabra in NoDicc:
-
-            m = self.sugerencia(palabra)
-
-            salida = ",".join(m)
-            #escribiendo archivo de salida
-            ArchivoSalida.write(f"{palabra},{salida}"+"\n")
-        ArchivoSalida.close()
+            print("-------------------------------------------------------------------")
+            print("Error: archivo inválido. Intente cargando un archivo .txt")
+            print("-------------------------------------------------------------------")
+            exit
 
     "sugerencia es un metodo auxiliar que tiene como tarea devolver las  cuatro palabras con menor distancia levensthein que seran las palabras que va a sugerir el ayudante ortografico"
     def sugerencia(self,elemento:str):
@@ -188,7 +201,9 @@ class Ayudante_Ortografico(object):
     "imprimirDiccionario tiene como funcion mostrar las palabras del diccionario en orden lexicografico"
     def imprimirDiccionario(self):
         assert(True)
-        print("#----------------Diccionario---------------#")
+        print("-------------------------------------------------------------------")
+        print("                         Diccionario")
+        print("-------------------------------------------------------------------")
         for diccionario in self.dicc:
             if diccionario.palabras:
                 r = (diccionario.mostrarPalabras())
@@ -199,8 +214,8 @@ if __name__ == "__main__":
 
     a = Ayudante_Ortografico()
     a.cargarDiccionario("prueba.txt")
+    a.corregirTexto("prueba.txt")
 
-    a.corregirTexto("corregir.txt")
     
     
     
