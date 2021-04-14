@@ -26,14 +26,19 @@ class OpenHtable(object):
     #creamos la funcion de hash para el sondeo lineal 
     def h(self,palabra,i):
         h = sha256(palabra.encode())
+        
         h1 = int(h.hexdigest(), base=16)
         resultado = (h1 + i) % self.tamano
         return (resultado)
-
+    
+    "hash_insert tiene como funcion insertar las palabras a la tabla de hash"
+    #{pre: self.tabla != []}
+    #{post: self.tabla u palabra}
     def hash_insert(self,palabra):
+        
         self.rehashing()
         tabla = self.tabla 
- 
+        assert(tabla != [])
         i =0
         while i < len(tabla) :
             j = self.h(palabra,i)  
@@ -47,7 +52,9 @@ class OpenHtable(object):
         else:
             print("desbordamiento de la tabla de hash")
 
-
+    "hash_search tiene como funcion buscar una palabra en la tabla hash"
+    #{pre: self.tabla != [] }
+    #{post: buscar == false y buscar == true}
     def hash_search(self,palabra):
         i = 0
         tabla = self.tabla
@@ -56,12 +63,14 @@ class OpenHtable(object):
         while i < n and tabla != None:
             j = self.h(palabra,i)
             if tabla[j] == palabra:
+                buscar = True
                 return j 
             i += 1
         if tabla[j] == None or i == n:
             return None
-        
-    
+    "hash_delete tiene como funcion eliminar una palabra que se encuentre en la tabla de hash"
+    #{pre: self.tabla != [] and self.tabla(palabra) == True}
+    #{post: self.tabla[i] == palabra v self.tabla[i] == None}
     def hash_delete(self,palabra):
         i = 0
         self.tabla
@@ -74,17 +83,22 @@ class OpenHtable(object):
                 return j
             else:
                 i += 1
+    "numElementos contiene la cantidad de elementos que se encuentran almacenados en el arreglo"
     def numElementos(self):
         
         return self.cantidad
-    
+    "factor_de_carga contiene el numero promedio de elementos por slot en la tabla de hash"
     def factor_de_carga(self):
+        assert(True)
         n = self.tamano
 
         factor = self.cantidad/n
 
         return factor
     
+    "como su nombre lo indica rehashing es hacer hashing otra vez y eso se realiza en el momento en el que el factor de carga es mayor de 0.7 para dublicar el tamano de nuestra tabla hash"
+    #{pre: True}
+    #{post: self.tabla == self.tabla*2n}
     def rehashing(self):
         if self.factor_de_carga() < 0.7:
             return
