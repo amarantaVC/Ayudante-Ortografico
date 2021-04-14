@@ -37,19 +37,24 @@ class PMLI(object):
     #{pre: p[0] == self.letra}
     #{post: palabras == palabras U p }
     def agregarPalabra(self,p:str):
+    
         palabras = self.palabras
         letra = self.letra
 
             #precondicion
         if esPalabraValida(p) == True:
             if p[0] != letra:
+                print("-------------------------------------------------------------------")
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
+                print("-------------------------------------------------------------------")
                 exit(p)
             else:
                 
                 palabras.hash_insert(p)
         else:
+            print("-------------------------------------------------------------------")
             print(f"Palabra {p} no valida, por favor revise que todos los elementos esten en minusculas")
+            print("-------------------------------------------------------------------")
             exit(p)   
 
         
@@ -65,15 +70,24 @@ class PMLI(object):
         if esPalabraValida(p) == True:
                 
             if p[0] != letra:
+                print("-------------------------------------------------------------------")
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
+                print("-------------------------------------------------------------------")
             else:
                 if palabras.hash_search(p) != None:
 
                     palabras.hash_delete(p)
+                    print("-------------------------------------------------------------------")
+                    print(f"Palabra {p}, eliminada con exito")
+                    print("-------------------------------------------------------------------")
                 else:
-                    print(f"Sorry, la palabra {p} no fue se encuentra en el diccionario")    
+                    print("-------------------------------------------------------------------")
+                    print(f"Sorry, la palabra {p} no fue se encuentra en el diccionario") 
+                    print("-------------------------------------------------------------------")   
         else:
+            print("-------------------------------------------------------------------")
             print(f"Palabra {p} no valida, por favor revise que todos los elementos esten en minusculas")
+            print("-------------------------------------------------------------------")
         return palabras
 
     
@@ -86,8 +100,9 @@ class PMLI(object):
         buscar = False
         if esPalabraValida(p) == True:
             if p[0] != letra:
+                print("-------------------------------------------------------------------")
                 print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
-
+                print("-------------------------------------------------------------------")
             else:
                 if palabras.hash_search(p) != None:
                     buscar = True
@@ -95,13 +110,17 @@ class PMLI(object):
                     pass
             return buscar
         else:
+            print("-------------------------------------------------------------------")
             print(f"Palabra {p} no valida, por favor revise que todos los elementos esten en minusculas")
+            print("-------------------------------------------------------------------")
+    
 
     "Muestra la instancia self.palabras con sus elementos ordenados en forma lexicografica"
-    
     #{pre: True}
     #{post: mostrarPalabras = (All p: 0<=p< len(palabras) : palabras[p] <= palabras[p+1])}
     def mostrarPalabras(self):
+        #precondicion
+        assert(True)
         lista = []
         for palabra in self.palabras.tabla :
             if palabra != None:
@@ -112,24 +131,7 @@ class PMLI(object):
         enunciado = f"\nletra\t  {self.letra} "
         enunciado += f"-> {lista }"
         print(enunciado)
-"""
-    def __repr__(self):
-        enunciado = f"\nletra\t  {self.letra} "
-        enunciado += f"-> {self.lista }"
-        return enunciado
-"""
 
-if __name__ == "__main__":
-    arreglo = PMLI("a")
-    arreglo.agregarPalabra("ale")
-    arreglo.agregarPalabra("arrida")
-    arreglo.eliminarPalabra("ale")
-    arreglo.buscarPalabra("ale")
-    arreglo.buscarPalabra("arrida")
-    arreglo.agregarPalabra("aola")
-    arreglo.agregarPalabra("azul")
-    arreglo.agregarPalabra("aliza")
-    arreglo.mostrarPalabras()
 
     
 
