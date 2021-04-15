@@ -45,7 +45,9 @@ class Ayudante_Ortografico(object):
     "cargarDiccionario tiene la tarea de leer un archivo de entrada con las palabras de un diccionario y almacenarlas en la estructura dicc"
     
     def cargarDiccionario(self, fname):
-        try:
+        
+        ruta, extension = os.path.splitext(fname)
+        if extension == ".txt":
             archivo = open(fname,"r")
             cargo = True
             with archivo as fp: 
@@ -71,14 +73,12 @@ class Ayudante_Ortografico(object):
                     print("-------------------------------------------------------------------")
                     print(f"archivo invalido por palabra no valida: {linea}. Intente cargar un archivo valido")
                     print("-------------------------------------------------------------------")
-                    break
+                
         
-            return cargo
-
-        except FileNotFoundError:
+        else:
             cargo = False
 
-            return cargo
+        return cargo
 
     "borrarPalabra tiene como tarea recibir una palabra y verificar si esta se encuentra en la estructura dicc, si esto es verdad procede a eliminar la palabra "
     def borrarPalabra(self,p):
