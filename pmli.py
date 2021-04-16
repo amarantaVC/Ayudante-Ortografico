@@ -45,7 +45,7 @@ class PMLI(object):
         if esPalabraValida(p) == True:
             if p[0] != letra:
                 print("-------------------------------------------------------------------")
-                print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
+                print(f"Error: la palabra {p} no comienza con la letra {letra}")
                 print("-------------------------------------------------------------------")
                 exit(p)
             else:
@@ -71,7 +71,7 @@ class PMLI(object):
                 
             if p[0] != letra:
                 print("-------------------------------------------------------------------")
-                print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
+                print(f"Error: la palabra {p} no comienza con la letra {letra}")
                 print("-------------------------------------------------------------------")
             else:
                 if palabras.hash_search(p) != None:
@@ -82,7 +82,7 @@ class PMLI(object):
                     print("-------------------------------------------------------------------")
                 else:
                     print("-------------------------------------------------------------------")
-                    print(f"Sorry, la palabra {p} no fue se encuentra en el diccionario") 
+                    print(f"Error: la palabra {p} no fue se encuentra en el diccionario") 
                     print("-------------------------------------------------------------------")   
         else:
             print("-------------------------------------------------------------------")
@@ -101,7 +101,7 @@ class PMLI(object):
         if esPalabraValida(p) == True:
             if p[0] != letra:
                 print("-------------------------------------------------------------------")
-                print(f"Sorry, la palabra {p} no comienza con la letra {letra}")
+                print(f"Error: la palabra {p} no comienza con la letra {letra}")
                 print("-------------------------------------------------------------------")
             else:
                 if palabras.hash_search(p) != None:

@@ -61,54 +61,39 @@ while not salir:
     
 
     if opcion == 1:
-
         a = Ayudante_Ortografico()
-
         print("-------------------------------------------------------------------")
         print(  "Ayudante ortografico creado con exito")
         print("-------------------------------------------------------------------")
 
-
     if opcion == 2:
-
         if a == None:
-
             print("-------------------------------------------------------------------")
             print("Error: No se ha creado un Ayudante. Por favor cree uno e intente de nuevo.")
             print("-------------------------------------------------------------------")
         
         else:
-
-            diccionario = input("Ingrese nombre o la ruta del diccionario a cargar:")
+            diccionario = input("Ingrese el diccionario a cargar:")
             
             b = a.cargarDiccionario(diccionario) 
-            
-            if b == False:
 
+
+            if b == False:
                 print("-------------------------------------------------------------------")
                 print(f"Error: {diccionario} No es un diccionario válido. Inténte de nuevo")
                 print("-------------------------------------------------------------------")
-           
             else:
-
-                if b == 1:
-
-                    print("-------------------------------------------------------------------")
-                    print(f"Diccionario {diccionario} cargado con exito")
-                    print("-------------------------------------------------------------------")
-                else:
-    
-                    pass
+                print("-------------------------------------------------------------------")
+                print(f"Diccionario {diccionario} cargado con exito")
+                print("-------------------------------------------------------------------")
 
     if opcion == 3:
-
         if a == None:
             print("-------------------------------------------------------------------")
             print("Error: No se ha creado un Ayudante. Por favor cree uno e intente de nuevo.")
             print("-------------------------------------------------------------------")
         
         else:
-
             if b == True:
                 palabra = input("ingrese la palabra a borrar:")
                 borrar = a.borrarPalabra(palabra)
@@ -126,23 +111,12 @@ while not salir:
             print("-------------------------------------------------------------------")
         
         else:
-
             if b:
-
                 b = a.cargarDiccionario(diccionario)
-                texto = input("Ingrese nombre o la ruta del archivo a corregir:")
+                texto = input("ingrese el archivo a corregir:")
 
-                c = a.corregirTexto(texto)
-
-                if c == 1:
-
-                    print("-------------------------------------------------------------------")
-                    print(f"Archivo {texto} cargado con exito")
-                    print("Procesando sugerencias")
-                    print("Sugerencias listas. Revise el archivo foutput.txt ")
-                    print("-------------------------------------------------------------------")
-                else:
-                    pass
+                a.corregirTexto(texto)
+                
             else:
                 print("-------------------------------------------------------------------")
                 print("Error: No se ha cargado un diccionario válido. Inténte de nuevo.")
@@ -150,7 +124,6 @@ while not salir:
 
 
     if opcion == 5:
-
         if a == None:
             print("-------------------------------------------------------------------")
             print("Error: No se ha creado un Ayudante. Por favor cree uno e intente de nuevo.")
@@ -165,7 +138,6 @@ while not salir:
                 print("-------------------------------------------------------------------")
 
     if opcion == 6:
-
         salir = True
 
     else:

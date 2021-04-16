@@ -1,12 +1,15 @@
 #! /usr/bin/python3
 """
 Archivo: ayudante_ortografico.py
+
 contiene a un conjunto de palabras, las cuales comienzan por una misma letra. A
 continuacion se presenta la especificacion del TAD.
+
 Autor:
 #   Estudiante: Amaranta Villegas
 #   Carnet: 16-11247
 # Ultima modificación 16/04/2021
+
 Proyecto2: Ayudante Ortografico 
 prof : Guillermo Palma
 """
@@ -45,39 +48,35 @@ class Ayudante_Ortografico(object):
         
         ruta, extension = os.path.splitext(fname)
         if extension == ".txt":
+
+            archivo = open(fname,"r")
             cargo = True
-            try:
-                archivo = open(fname,"r")
-                
-                with archivo as fp: 
-                    #readlines lee las lineas del archivo
-                    dicci = fp.readlines()
-                
-                for linea in dicci:
-                    #preguntarRR 
-                    linea = linea.strip()
-                    #precondicion
-                    if esPalabraValida(linea) :
-                            #strip quita los espacios
-                            #linea[0] significa primera letra de la palabra
-                            #index entrega la posicion para obtener el PMLI del diccionario
-                            index = self.alfabeto.index(linea[0])
-                            buscar = self.dicc[index].buscarPalabra(linea)
-                            if buscar == False:
-                                #postcondicion
-                                self.dicc[index].agregarPalabra(linea)
-                            else:
-                                pass
+            with archivo as fp: 
+                #readlines lee las lineas del archivo
+                dicci = fp.readlines()
+            
+            for linea in dicci:
+                #preguntarRR 
+                linea = linea.strip()
+                #precondicion
+                if esPalabraValida(linea) :
+                    #strip quita los espacios
+                    #linea[0] significa primera letra de la palabra
+                    #index entrega la posicion para obtener el PMLI del diccionario
+                    index = self.alfabeto.index(linea[0])
+                    print(index)
+                    buscar = self.dicc[index].buscarPalabra(linea)
+                    if buscar == False:
+                        #postcondicion
+                        self.dicc[index].agregarPalabra(linea)
                     else:
-                        print("-------------------------------------------------------------------")
-                        print(f"archivo invalido por palabra no valida: {linea}. Intente cargar un archivo valido")
-                        print("-------------------------------------------------------------------")
-                return 1
-            except FileNotFoundError as e:
-                print("-------------------------------------------------------------------")
-                print(f"Error: {fname} no existe o no se encuentra en la direccion indicada")
-                print("-------------------------------------------------------------------")
-                return 2
+                        pass
+                else:
+                    print("-------------------------------------------------------------------")
+                    print(f"archivo invalido por palabra no valida: {linea}. Intente cargar un archivo valido")
+                    print("-------------------------------------------------------------------")
+                
+        
         else:
             cargo = False
 
@@ -87,10 +86,14 @@ class Ayudante_Ortografico(object):
     def borrarPalabra(self,p):
         #precondicion
         assert(esPalabraValida(p) == True)
-
-        index = self.alfabeto.index(p[0])
-        self.dicc[index].eliminarPalabra(p)
-
+        index = None
+        if index != None:
+            index = self.alfabeto.index(p[0])
+            self.dicc[index].eliminarPalabra(p)
+        else:
+            print("-------------------------------------------------------------------")
+            print("Error: No se ha cargado una palabra. Inténte de nuevo.")
+            print("-------------------------------------------------------------------")
         
     "levenshtein_distance es el metodo que permite determinar la distancia entre dos elementos tipo String mediante la metrica de conocida como distancia levenshtein"
     def levenshtein_distance(self,s1:str,s2:str):
@@ -123,69 +126,59 @@ class Ayudante_Ortografico(object):
         
         ruta, extension = os.path.splitext(finput)
         if extension == ".txt":
-            cargo = True
-            try:    
-                archivo = open(finput,"r")
-
-                with archivo as fp:
-                    documento = fp.readlines()
-                #creamos un arreglo NoDicc que almacena las palabras validas que no se encuentre en el diccionario    
-                NoDicc = []
-                for linea in documento:
+            archivo = open(finput,"r")
+        
+            with archivo as fp:
+                documento = fp.readlines()
+            #creamos un arreglo NoDicc que almacena las palabras validas que no se encuentre en el diccionario    
+            NoDicc = []
+            for linea in documento:
+                
+                #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
+                aux = linea.strip()
+                #captura todo lo que no es una palabra o un espacio en blanco 
+                aux = re.sub(r'[^\w\s]', ' ', aux)
+                asi = aux.split()
+                for palabra in asi:
+                    if palabra == '':
+                        pass
+                    else:
+                            
+                        valida = esPalabraValida(palabra)
                     
-                    #devuelve una lista con las palabras en el string, utilizando un separador #especificado como delimitador entre palabras
-                    aux = linea.strip()
-                    #captura todo lo que no es una palabra o un espacio en blanco 
-                    aux = re.sub(r'[^\w\s]', ' ', aux)
-                    asi = aux.split()
+                        if valida == True :
+                            index = self.alfabeto.index(palabra[0])
+                            buscar = self.dicc[index].buscarPalabra(palabra)
 
-                    for palabra in asi:
-                        if palabra == '':
-                            pass
-                        else:
+                            if buscar == False and (palabra not in NoDicc):
                                 
-                            valida = esPalabraValida(palabra)
-                        
-                            if valida == True :
-                                index = self.alfabeto.index(palabra[0])
-                                buscar = self.dicc[index].buscarPalabra(palabra)
-
-                                if buscar == False and (palabra not in NoDicc):
-                                    
-                                        NoDicc.append(palabra)
-                                else:
-                                    pass
+                                NoDicc.append(palabra)
                             else:
                                 pass
+                        else:
+                            pass
 
-                NoDicc = sorted(NoDicc)
+            NoDicc = sorted(NoDicc)
 
-                foutput = None
-                if foutput:
-                    ArchivoSalida = open(foutput, "w")
-                else:
-                    ArchivoSalida = open("foutput.txt" ,"w")
+            foutput = None
+            if foutput:
+                ArchivoSalida = open(foutput, "w")
+            else:
+                ArchivoSalida = open("foutput.txt" ,"w")
 
-                for palabra in NoDicc:
+            for palabra in NoDicc:
 
-                    m = self.sugerencia(palabra)
+                m = self.sugerencia(palabra)
 
-                    salida = ",".join(m)
-                    #escribiendo archivo de salida
-                    ArchivoSalida.write(f"{palabra},{salida}"+"\n")
-                ArchivoSalida.close()
-                return 1
-            except FileNotFoundError as e:
-                print("-------------------------------------------------------------------")
-                print(f"Error: {finput} no existe o no se encuentra en la direccion indicada")
-                print("-------------------------------------------------------------------")
-                return 2
-        else:   
+                salida = ",".join(m)
+                #escribiendo archivo de salida
+                ArchivoSalida.write(f"{palabra},{salida}"+"\n")
+            ArchivoSalida.close()
+        else:
             print("-------------------------------------------------------------------")
             print("Error: archivo inválido. Intente cargando un archivo .txt")
             print("-------------------------------------------------------------------")
-            cargo = False
-            return cargo
+            exit
 
     "sugerencia es un metodo auxiliar que tiene como tarea devolver las  cuatro palabras con menor distancia levensthein que seran las palabras que va a sugerir el ayudante ortografico"
     def sugerencia(self,elemento:str):
@@ -221,4 +214,11 @@ class Ayudante_Ortografico(object):
                 r = (diccionario.mostrarPalabras())
 
     
+
+if __name__ == "__main__":
+
+    a = Ayudante_Ortografico()
+    a.cargarDiccionario("prueba.txt")
+    a.corregirTexto("prueba.txt")
+
     

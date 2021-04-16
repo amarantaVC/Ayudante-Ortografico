@@ -14,7 +14,9 @@ prof : Guillermo Palma
 import string
 
 "esPalabraValida tiene como funcion la verificacion de las palabras que se quieren ingresar a las listas"
+
 def esPalabraValida(p):
+    
     alfabeto = list(string.ascii_lowercase)
     alfabeto.append('ñ')
     valida = True

@@ -1,3 +1,23 @@
-Este procedimiento recibe como entrada un archivo de texto con palabras a revisar. Este archivo ademas de
-palabras validas, puede contener palabras inADalidas, espacios en blanco, saltos de lınea, espacio de tabulaciones
-y signos de puntuacion
+Amiga mía, ¡ten fe! 
+
+¡Me quiero ir del país, urgentemente! 
+
+¿En cuanto está el dólar? 
+
+La cabeza me sigue doliendo (Aunque me tomé varias pastillas) 
+
+La vida es dura... Pero se aprende a vivir
+
+hola, fin de semana.
+
+hol$la chama049 aja 
+
+!!!!poema!!!!
+Podrá nublarse el sool eternamente;
+Podrá secarse en un instante el mar;
+Podrá romperse el eje de la terra
+Como un débil cristal.
+¡todo sucederá! Podrá la muerte
+Cubrirme con su fúnebre crespón;
+Pero jamás en mí podrá apagarse
+La llama de tu amor.

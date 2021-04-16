@@ -18,7 +18,7 @@ from math import factorial
 class OpenHtable(object):
     
     def __init__(self,n):
-
+        
         self.tamano = n
         self.tabla = [None for i in range(n)]
         self.cantidad = 0
@@ -53,9 +53,12 @@ class OpenHtable(object):
             print("desbordamiento de la tabla de hash")
 
     "hash_search tiene como funcion buscar una palabra en la tabla hash"
-    #{pre: self.tabla != [] }
-    #{post: buscar == false y buscar == true}
+    #{pre: palabra: str}
+    #{post: buscar == j y buscar == None}
     def hash_search(self,palabra):
+        #precondicion
+
+
         i = 0
         tabla = self.tabla
         n = self.tamano
@@ -68,10 +71,15 @@ class OpenHtable(object):
             i += 1
         if tabla[j] == None or i == n:
             return None
+
+        #postcondicion
+
     "hash_delete tiene como funcion eliminar una palabra que se encuentre en la tabla de hash"
-    #{pre: self.tabla != [] and self.tabla(palabra) == True}
-    #{post: self.tabla[i] == palabra v self.tabla[i] == None}
+    #{pre: palabra: str}
+    #{post: self.tabla == self.tabla - palabra}
     def hash_delete(self,palabra):
+        #precondicion
+
         i = 0
         self.tabla
         n = self.tamano
@@ -83,23 +91,35 @@ class OpenHtable(object):
                 return j
             else:
                 i += 1
+
+        #postcondicion
+        #{self.tabla = self.tabla - palabra}
     "numElementos contiene la cantidad de elementos que se encuentran almacenados en el arreglo"
     def numElementos(self):
-        
+        #precondicion
+        assert(True)
+
         return self.cantidad
+
     "factor_de_carga contiene el numero promedio de elementos por slot en la tabla de hash"
     def factor_de_carga(self):
-        assert(True)
+        #precondicion
+        assert(self.tamano > 0)
         n = self.tamano
 
         factor = self.cantidad/n
 
         return factor
-    
+
+        #postcondicon
+        #{0 <= factor <= 1}
+        
     "como su nombre lo indica rehashing es hacer hashing otra vez y eso se realiza en el momento en el que el factor de carga es mayor de 0.7 para dublicar el tamano de nuestra tabla hash"
     #{pre: True}
     #{post: self.tabla == self.tabla*2n}
     def rehashing(self):
+        assert(True)
+
         if self.factor_de_carga() < 0.7:
             return
                
